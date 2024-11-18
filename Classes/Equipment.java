@@ -1,6 +1,8 @@
 package Classes;
 
-public class Equipment {
+import Interfaces.IEquipment;
+
+public class Equipment implements IEquipment {
     private String equipmentName;
     private String equipmentType;
     private String modelNumber;
@@ -15,30 +17,37 @@ public class Equipment {
     }
 
     //get - set
+    @Override
     public String getEquipmentName() {
         return equipmentName;
     }
-
+    
+    @Override
     public void setEquipmentName(String equipmentName) {
         this.equipmentName = equipmentName;
     }
-
+    
+    @Override
     public String getEquipmentType() {
         return equipmentType;
     }
 
+    @Override
     public void setEquipmentType(String equipmentType) {
         this.equipmentType = equipmentType;
     }
 
+    @Override
     public String getModelNumber() {
         return modelNumber;
     }
 
+    @Override
     public void setModelNumber(String modelNumber){
         this.modelNumber = modelNumber;
     }
 
+    @Override
     public boolean isAvailable(){
         return isAvailable;
     }

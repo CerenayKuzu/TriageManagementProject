@@ -5,11 +5,17 @@ public class Patient {
     private String name;
     private String surname;
 
+    private static int patientCount = 0;
     //Constructor
     public Patient(int id, String name, String surname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        patientCount++;
+    }
+
+    static {
+        System.out.println("Patient class loaded. Ready to manage patients.");
     }
 
     //get-set
@@ -38,6 +44,10 @@ public class Patient {
         this.surname = surname;
     }
 
+    public static int getPatientCount() {
+        return patientCount;
+    }
+
     @Override
     public String toString() {
         return "Patient{id=" + id + ", name='" + name + "', surname='" + surname + "'}";
@@ -55,5 +65,7 @@ public class Patient {
         Patient that = (Patient) obj;
         return id == that.id && name.equals(that.name) && surname.equals(that.surname);
     }
-
+    public static void displayPatientInfo() {
+        System.out.println("This is a generic patient. More details can be added as needed.");
+    }
 }

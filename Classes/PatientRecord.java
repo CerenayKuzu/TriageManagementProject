@@ -1,6 +1,8 @@
 package Classes;
 
-public class PatientRecord {
+import Interfaces.IPatientRecord;
+
+public class PatientRecord implements IPatientRecord{
     private String patient;
     private String date;
     private String details;

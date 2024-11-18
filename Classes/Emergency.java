@@ -1,6 +1,6 @@
 package Classes;
 
-public class Emergency {
+public abstract class Emergency {
     private int emergencyId;
     private int patientId;
     private String emergencyType;
@@ -26,10 +26,11 @@ public class Emergency {
     public void setEmergencyId(int emergencyId){
         this.emergencyId = emergencyId;
     }
-
+    
     public int getPatientId(){
         return patientId;
     }
+
     public void setPatientId(int patientId) {
         this.patientId = patientId;
     }
@@ -37,13 +38,15 @@ public class Emergency {
     public String getEmergencyType(){
         return emergencyType;
     }
+
     public void setEmergencyType(String emergencyType){
         this.emergencyType = emergencyType;
     }
-
-    public String getSymptomps(){
+    
+    public String getSymptoms(){
         return symptoms;
     }
+
     public void setSymptoms(String symptoms){
         this.symptoms = symptoms;
     }
@@ -83,6 +86,7 @@ public class Emergency {
                 '}';
     }
 
+    public abstract void handleEmergency();
 
 
 }

@@ -1,17 +1,19 @@
 package Classes;
 
-public class Doctor {
+import Interfaces.IMedicalStaff;
+
+public class Doctor implements IMedicalStaff {
     private String doctorName;
     private String speciality;
 
     //Constructor
-    public Doctor(String DoctorName, String speciality) {
-        this.doctorName = DoctorName;
+    public Doctor(String doctorName, String speciality) {
+        this.doctorName = doctorName;
         this.speciality = speciality;
     }
 
     //get - set
-    public String getDoctorName(){
+    public String getName(){
         return doctorName;
     }
 

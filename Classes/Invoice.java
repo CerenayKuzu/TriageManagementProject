@@ -2,11 +2,11 @@ package Classes;
 
 import java.util.Date;
 
-public class Invoice {
-    private String invoiceNumber;   
-    private String customerName;    
-    private Date invoiceDate;     
-    private String serviceName;   
+public final class Invoice {
+    private final String invoiceNumber;   
+    private final String customerName;    
+    private final Date invoiceDate;     
+    private final String serviceName;   
     private int quantity;          
     private double unitPrice;      
     private double totalAmount;    //calculated as quantity * unitPrice
@@ -25,36 +25,32 @@ public class Invoice {
     }
 
     //get - set
-    public String getInvoiceNumber() {
+    public final String getInvoiceNumber() {
         return invoiceNumber;
     }
 
     public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
     }
 
-    public String getCustomerName() {
+    public final String getCustomerName() {
         return customerName;
     }
 
     public void setCustomerName(String customerName) {
-        this.customerName = customerName;
     }
 
-    public Date getInvoiceDate() {
+    public final Date getInvoiceDate() {
         return invoiceDate;
     }
 
     public void setInvoiceDate(Date invoiceDate) {
-        this.invoiceDate = invoiceDate;
     }
 
-    public String getServiceName() {
+    public final String getServiceName() {
         return serviceName;
     }
 
     public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
     }
 
     public int getQuantity() {
@@ -62,7 +58,7 @@ public class Invoice {
     }
 
     //updates totalAmount when quantity changes
-    public void setQuantity(int quantity) {
+    public final void setQuantity(int quantity) {
         this.quantity = quantity;
         this.totalAmount = quantity * unitPrice; //recalculate total amount
     }
@@ -71,31 +67,31 @@ public class Invoice {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
+    public final void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
         this.totalAmount = quantity * unitPrice;
     }
 
-    public double getTotalAmount() {
+    public final double getTotalAmount() {
         return totalAmount;
     }
 
     // Getter for paymentStatus (returns true if paid)
-    public boolean isPaymentStatus() {
+    public final boolean isPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(boolean paymentStatus) {
+    public final void setPaymentStatus(boolean paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
-    public void markAsPaid() {
+    public final void markAsPaid() {
         this.paymentStatus = true; //set payment status to true when payment is made
     }
 
     //to return a string representation of the invoice details
     @Override
-    public String toString() {
+    public final String toString() {
         return "Invoice{" +
                 "Invoice Number='" + invoiceNumber + '\'' +
                 ", Customer Name='" + customerName + '\'' +

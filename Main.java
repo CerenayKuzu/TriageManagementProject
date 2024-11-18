@@ -7,6 +7,7 @@ import Classes.Doctor;
 import Classes.Emergency;
 import Classes.EmergencyIntervention;
 import Classes.Equipment;
+import Classes.HeartEmergency;
 import Classes.Insurance;
 import Classes.Invoice;
 import Classes.Laboratory;
@@ -21,6 +22,7 @@ import Classes.PatientReferral;
 import Classes.PatientVisit;
 import Classes.TestResult;
 import Classes.TransactionRecord;
+import Classes.TraumaEmergency;
 import Classes.TriageLevel;
 import Classes.TriageRoom;
 
@@ -93,7 +95,7 @@ public class Main {
         Doctor doctor = new Doctor(doctorName, speciality);
 
         System.out.println("\nDoctor Information:");
-        System.out.println("Doctor's Name: " + doctor.getDoctorName());
+        System.out.println("Doctor's Name: " + doctor.getName());
         System.out.println("Speciality: " + doctor.getSpeciality());
 
 
@@ -471,7 +473,7 @@ public class Main {
         System.out.print("Severity (Low/Medium/High): ");
         String severity = s.nextLine();
 
-        Emergency emergency = new Emergency(emergencyId, PatientID, emergencyType, symptoms, severity);
+        Emergency emergency = new HeartEmergency(emergencyId, PatientID, emergencyType, symptoms, severity);
 
         System.out.println("\nEmergency Details:");
         System.out.println(emergency);
@@ -546,6 +548,37 @@ public class Main {
         // Output the information for the doctor and the nurse
         System.out.println(doctor1.getName() + " - " + doctor1.getSpeciality());
         System.out.println(nurse1.getName() + " - " + nurse1.getDepartment());
+
+        
+        
+        Emergency heartEmergency = new HeartEmergency(1, 101, "Heart Attack", "Chest pain, shortness of breath", "High");
+        Emergency traumaEmergency = new TraumaEmergency(2, 102, "Trauma", "Broken bone, bleeding", "Moderate");
+
+        // Handle emergencies using polymorphism
+        heartEmergency.handleEmergency();  // Calls HeartEmergency's handleEmergency method
+        traumaEmergency.handleEmergency();  // Calls TraumaEmergency's handleEmergency method
+
+        // Print emergency details
+        System.out.println(heartEmergency.toString());
+        System.out.println(traumaEmergency.toString());
+
+
+
+         // Static method can be called without creating an instance
+         Patient.displayPatientInfo();
+
+         // Create new Patient instances
+         Patient patient1 = new Patient(1, "John", "Doe");
+         Patient patient2 = new Patient(2, "Jane", "Smith");
+ 
+         // Display the total number of patients
+         System.out.println("Total number of patients: " + Patient.getPatientCount());
+ 
+         // Display patient details
+         System.out.println(patient1);
+         System.out.println(patient2);
+
+
     
         // Close the scanner to avoid memory leaks
         s.close();

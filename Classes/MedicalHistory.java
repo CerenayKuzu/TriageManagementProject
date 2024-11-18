@@ -1,6 +1,8 @@
 package Classes;
 
-public class MedicalHistory {
+import Interfaces.IMedicalHistory;
+
+public class MedicalHistory implements IMedicalHistory {
     private String patientId;
     private String previousIllnesses;
     private String surgeries;
@@ -17,42 +19,53 @@ public class MedicalHistory {
     }
 
     //get - set
+
+    @Override
     public String getPatientId() {
         return patientId;
     }
-
+    
+    @Override
     public void setPatientId(String patientId) {
         this.patientId = patientId;
     }
 
+    @Override
     public String getPreviousIllnesses() {
         return previousIllnesses;
     }
 
+    @Override
     public void setPreviousIllnesses(String previousIllnesses) {
         this.previousIllnesses = previousIllnesses;
     }
-
+    
+    @Override
     public String getSurgeries() {
         return surgeries;
     }
 
+    @Override
     public void setSurgeries(String surgeies) {
         this.surgeries = surgeies;
     }
 
-    public String getAllegies() {
+    @Override
+    public String getAllergies() {
         return allergies;
     }
-
+    
+    @Override
     public void setAllergies(String allergies) {
         this.allergies = allergies;
     }
-
+    
+    @Override
     public String getMedications() {
         return medications;
     }
 
+    @Override
     public void setMedications(String medications) {
         this.medications = medications;
     }
