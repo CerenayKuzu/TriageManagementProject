@@ -1,6 +1,8 @@
 package Classes;
 
-public abstract class Emergency {
+import Interfaces.IEmergency;
+
+public abstract class Emergency implements IEmergency {
     private int emergencyId;
     private int patientId;
     private String emergencyType;

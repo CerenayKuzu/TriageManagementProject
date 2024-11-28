@@ -2,31 +2,22 @@ package Classes;
 
 import Interfaces.IMedicalStaff;
 
-public class Doctor implements IMedicalStaff {
-    private String doctorName;
-    private String speciality;
+public class Doctor extends IMedicalStaff {
 
     //Constructor
     public Doctor(String doctorName, String speciality) {
-        this.doctorName = doctorName;
-        this.speciality = speciality;
+        super(doctorName, speciality);
     }
 
-    //get - set
-    public String getName(){
-        return doctorName;
-    }
+   @Override
+   public void performDuty(){
 
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
+   }
 
-    public String getSpeciality(){
-        return speciality;
-    }
+   @Override
+   public String toString() {
+       return "Doctor{name='" + getName() + "', speciality='" + getSpeciality() + "'}";
+   }
 
-    public void setSpeciality(String speciality) {
-        this.speciality = speciality;
-    }
-    
+
 }

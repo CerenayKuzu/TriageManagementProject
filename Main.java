@@ -38,13 +38,13 @@ public class Main {
         s.nextLine(); // Consume newline
 
         System.out.print("Patient Name: ");
-        String ad = s.nextLine();
+        String name = s.nextLine();
         
         System.out.print("Patient Surname: ");
-        String soyad = s.nextLine();
+        String surname = s.nextLine();
 
         // Creating a Patient object
-        Patient p = new Patient(id, ad, soyad);
+        Patient p = new Patient(id, name, surname);
 
         // Displaying patient information
         System.out.println("Patient Informations Has Been Saved: " + p.getId()+ " " + p.getName()+ " "+ p.getSurname());
@@ -201,7 +201,7 @@ public class Main {
         System.out.println(medicalHistory);
 
         System.out.print("Enter Medication Name: ");
-        String name = s.nextLine();
+        s.nextLine();
 
         System.out.print("Enter Dosage (mg): ");
         String dosage = s.nextLine();
@@ -551,8 +551,10 @@ public class Main {
 
         
         
-        Emergency heartEmergency = new HeartEmergency(1, 101, "Heart Attack", "Chest pain, shortness of breath", "High");
-        Emergency traumaEmergency = new TraumaEmergency(2, 102, "Trauma", "Broken bone, bleeding", "Moderate");
+        HeartEmergency heartEmergency = new HeartEmergency(1, 101, "Heart Attack", "Chest pain, shortness of breath", "High");
+        TraumaEmergency traumaEmergency = new TraumaEmergency(2, 102, "Trauma", "Broken bone, bleeding", "Moderate", 10);
+
+
 
         // Handle emergencies using polymorphism
         heartEmergency.handleEmergency();  // Calls HeartEmergency's handleEmergency method
@@ -568,8 +570,11 @@ public class Main {
          Patient.displayPatientInfo();
 
          // Create new Patient instances
-         Patient patient1 = new Patient(1, "John", "Doe");
-         Patient patient2 = new Patient(2, "Jane", "Smith");
+         Patient patient1 = new Patient(1, "Serhat", "Oztekin");
+         Patient patient2 = new Patient(2, "Cansu", "Yildirim");
+
+         traumaEmergency.assignPatient(patient1);
+         traumaEmergency.assignPatient(patient2);
  
          // Display the total number of patients
          System.out.println("Total number of patients: " + Patient.getPatientCount());
