@@ -1,5 +1,7 @@
 package Classes;
 
+import Exceptions.InvalidReferralException;
+
 public class PatientReferral {
     private int patientId;
     private String patientName;
@@ -9,7 +11,14 @@ public class PatientReferral {
     private String referredBy; // The medical professional who made the referral
 
     //Constructor
-    public PatientReferral(int patientId, String patientName, String referralDepartment, String referralReason, String referralDate, String referredBy) {
+    public PatientReferral(int patientId, String patientName, String referralDepartment, String referralReason, String referralDate, String referredBy) throws InvalidReferralException{
+        if(referralDepartment == null || referralDepartment.isEmpty()){
+            throw new InvalidReferralException("Referral department cannot be empty.");
+        }
+        if(referralReason == null || referralReason.isEmpty()){
+            throw new InvalidReferralException("Referral reason cannot be empty.");
+        }
+
         this.patientId = patientId;
         this.patientName = patientName;
         this.referralDepartment = referralDepartment;
@@ -39,7 +48,11 @@ public class PatientReferral {
         return referralDepartment;
     }
 
-    public void setReferralDepartment(String referralDepartment){
+    public void setReferralDepartment(String referralDepartment) throws InvalidReferralException{
+        if(referralDepartment == null || referralDepartment.isEmpty()){
+            throw new InvalidReferralException("Referral department cannot be empty.");
+        }
+
         this.referralDepartment = referralDepartment;
     }
 
@@ -47,7 +60,11 @@ public class PatientReferral {
         return referralReason;
     }
 
-    public void setReferralReason(String referralReason){
+    public void setReferralReason(String referralReason) throws InvalidReferralException{
+        if(referralReason == null || referralReason.isEmpty()){
+            throw new InvalidReferralException("Referral reason cannot be empty.");
+        }
+
         this.referralReason = referralReason;
     }
 

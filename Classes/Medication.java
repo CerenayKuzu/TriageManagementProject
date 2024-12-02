@@ -1,5 +1,7 @@
 package Classes;
 
+import Exceptions.MedicationNotFoundException;
+
 public class Medication {
     private String name;
     private String dosage;
@@ -45,6 +47,14 @@ public class Medication {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public static Medication findMedication(String name) throws MedicationNotFoundException{
+        if(!"Paracetamol".equalsIgnoreCase(name)) {
+            throw new MedicationNotFoundException("Medication '" + name + "' not found in the system.");
+        }
+
+        return new Medication("Paracetamol", "500mg", "Twice a day after meals", "Tablet");
     }
 
     // return a string representation of the medication object

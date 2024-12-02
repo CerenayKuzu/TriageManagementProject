@@ -1,5 +1,6 @@
 package Classes;
 
+import Exceptions.InvalidInvoiceException;
 import java.util.Date;
 
 public final class Invoice {
@@ -13,7 +14,32 @@ public final class Invoice {
     private boolean paymentStatus; //the payment has been made (true if paid)
 
     //Constructor
-    public Invoice(String invoiceNumber, String customerName, Date invoiceDate, String serviceName, int quantity, double unitPrice) {
+    public Invoice(String invoiceNumber, String customerName, Date invoiceDate, String serviceName, int quantity, double unitPrice) throws InvalidInvoiceException{
+        if(quantity <= 0){
+            throw new InvalidInvoiceException("Quantity must be greater than zero.");
+
+        }
+
+        if(unitPrice <= 0){
+            throw new InvalidInvoiceException("Unit price must be greater than zero.");
+        }
+
+        if(invoiceNumber == null || invoiceNumber.isEmpty()){
+            throw new InvalidInvoiceException("Invoice number cannot be null or empty.");
+        }
+
+        if(customerName == null || customerName.isEmpty()){
+            throw new InvalidInvoiceException("Customer name cannot be null or empty.");
+        }
+
+        if(invoiceDate == null){
+            throw new InvalidInvoiceException("Invoice date cannot be null.");
+        }
+
+        if(serviceName == null || serviceName.isEmpty()){
+            throw new InvalidInvoiceException("Service name cannot be null or empty.");
+        }
+
         this.invoiceNumber = invoiceNumber;
         this.customerName = customerName;
         this.invoiceDate = invoiceDate;
@@ -29,28 +55,16 @@ public final class Invoice {
         return invoiceNumber;
     }
 
-    public void setInvoiceNumber(String invoiceNumber) {
-    }
-
     public final String getCustomerName() {
         return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
     }
 
     public final Date getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(Date invoiceDate) {
-    }
-
     public final String getServiceName() {
         return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
     }
 
     public int getQuantity() {
@@ -58,7 +72,11 @@ public final class Invoice {
     }
 
     //updates totalAmount when quantity changes
-    public final void setQuantity(int quantity) {
+    public final void setQuantity(int quantity) throws InvalidInvoiceException {
+        if(quantity <= 0){
+            throw new InvalidInvoiceException("Quantity must be greater than zero.");
+        }
+        
         this.quantity = quantity;
         this.totalAmount = quantity * unitPrice; //recalculate total amount
     }
@@ -67,7 +85,11 @@ public final class Invoice {
         return unitPrice;
     }
 
-    public final void setUnitPrice(double unitPrice) {
+    public final void setUnitPrice(double unitPrice) throws InvalidInvoiceException {
+        if(unitPrice <= 0){
+            throw new InvalidInvoiceException("Unit price must be greater than zero.");
+        }
+
         this.unitPrice = unitPrice;
         this.totalAmount = quantity * unitPrice;
     }

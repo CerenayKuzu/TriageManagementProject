@@ -1,5 +1,7 @@
 package Classes;
 
+import Exceptions.TransactionFailedException;
+
 public class TransactionRecord {
     private String transactionId;
     private int patientId;
@@ -9,7 +11,7 @@ public class TransactionRecord {
     private String description;
 
     //Constructor
-    public TransactionRecord(String transactionId, int patientId, String transactionType, double amount, String date, String description){
+    public TransactionRecord(String transactionId, int patientId, String transactionType, double amount, String date, String description) throws TransactionFailedException{
         this.transactionId = transactionId;
         this.patientId = patientId;
         this.transactionType = transactionType;
@@ -65,6 +67,14 @@ public class TransactionRecord {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void processTransaction() throws TransactionFailedException{
+        if(amount <= 0){
+            throw new TransactionFailedException("Transaction amount must be greater than zero. Transaction ID: " + transactionId);
+        }
+
+        System.out.println("\"Transaction processed successfully: \" + this");
     }
 
     //to represent the TransactionRecord object as a string

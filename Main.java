@@ -1,5 +1,11 @@
 import java.util.Scanner;
 import java.util.Date;
+import java.io.IOException;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import Classes.Bed;
 import Classes.ConditionMonitor;
@@ -25,10 +31,102 @@ import Classes.TransactionRecord;
 import Classes.TraumaEmergency;
 import Classes.TriageLevel;
 import Classes.TriageRoom;
+import Exceptions.BedUnavailableException;
+import Exceptions.InvalidInvoiceException;
+import Exceptions.InvalidReferralException;
+import Exceptions.MedicationNotFoundException;
+import Exceptions.TransactionFailedException;
 
 public class Main {
+    public static final Logger logger = Logger.getLogger(Main.class.getName());
+
+    public static void setupLogger() throws IOException {
+        FileHandler fileHandler = new FileHandler("app.log", true);
+        fileHandler.setFormatter(new SimpleFormatter());
+
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.INFO);
+
+        logger.addHandler(fileHandler);
+        logger.addHandler(consoleHandler);
+
+        logger.setLevel(Level.INFO);
+    }
+
 
     public static void main(String[] args) {
+        try{
+            setupLogger();
+
+            logger.info("Starting the Triage Management System");
+
+            String invoiceNumber = "INV001";
+            String customerName = "John Doe";
+            Date invoiceDate = new Date();
+            String serviceName = "Consultation";
+            int quantity = 2;
+            double unitPrice = 100.0;
+
+
+            try{
+                Invoice invoice = new Invoice(invoiceNumber, customerName, invoiceDate, serviceName, quantity, unitPrice);
+                logger.info("Invoice created: " + invoice);
+                invoice.markAsPaid();
+                logger.info("Invoice marked as paid: " + invoice);
+            } catch (InvalidInvoiceException e){
+                logger.severe("Error creating invoice: " + e.getMessage());
+            }
+
+            try{
+                PatientReferral referral = new PatientReferral(123, "Jane Doe", "Cardiology", "Chest pain", "2024-11-30", "Dr. Smith");
+                logger.info("Referral created: " + referral);
+            } catch(InvalidReferralException e){
+                logger.severe("Error creating referral: " + e.getMessage());
+            }
+
+            try{
+                Medication medication = Medication.findMedication("Paracetamol");
+                logger.info("Medication found: " + medication);
+            }catch (MedicationNotFoundException e){
+                logger.severe("Error finding medication: " + e.getMessage());
+            }
+
+            String transactionId = "TX123";
+            int patientId = 123;
+            String transactionType = "Payment";
+            double amount = 200.0;
+            String date = "2024-11-30";
+            String description = "Consultation fee";
+
+            try{
+                TransactionRecord transaction = new TransactionRecord(transactionId, patientId, transactionType, amount, date, description);
+                logger.info("Transaction created: " + transaction);
+            } catch (TransactionFailedException e) {
+                // Handle the exception
+                logger.severe("Error processing transaction: " + e.getMessage());
+            } finally{
+                logger.info("Transaction process finished.");
+            }
+
+            int bedNumber = 101;
+            boolean isOccupied = false;
+            String bedType = "General";
+
+            try{
+                Bed bed = new Bed(bedNumber, isOccupied, bedType);
+                logger.info("Bed created: " + bed);
+            } catch(BedUnavailableException e){
+                logger.severe("Error with bed availability: " + e.getMessage());
+            }
+
+        } catch(IOException e){
+            System.err.println("Error setting up logger: " + e.getMessage());
+        }
+
+
+
+
+
         Scanner s = new Scanner(System.in);
 
         //PATIENT
@@ -283,15 +381,20 @@ public class Main {
 
         //INVOICE
         // Creating an Invoice object using the provided details
+
+    try{
         Invoice invoice = new Invoice(invoiceNumber, customerName, invoiceDate, serviceName, quantity, unitPrice);
 
         System.out.println("\nInvoice Details:");
         System.out.println(invoice);
 
         invoice.markAsPaid(); // Calls a method to change the invoice status to "pai
-
         System.out.println("\nAfter Payment:");
         System.out.println(invoice);
+
+    } catch(InvalidInvoiceException e) {
+        System.out.println("Error: " + e.getMessage());
+    }
 
         System.out.print("Enter Patient ID: ");
         int PatientId = s.nextInt();
@@ -334,10 +437,10 @@ public class Main {
 
         //TRANSACTIONRECORD
         // Creating a TransactionRecord object with the user inputs
-        TransactionRecord transaction = new TransactionRecord(transactionId, patientID, transactionType, amount, date, description);
+        //TransactionRecord transaction = new TransactionRecord(transactionId, patientID, transactionType, amount, date, description);
 
         System.out.println("\nCreated Transaction Record:");
-        System.out.println(transaction);
+        //System.out.println(transaction);
 
 
         System.out.print("Enter Bed Number: ");
@@ -354,7 +457,9 @@ public class Main {
 
         //BED
         // Creating a Bed object with the collected data
-        Bed bed = new Bed(bedNumber, isOccupied, bedType);
+        final Bed bed = new Bed(bedNumber, isOccupied, bedType);
+
+        
 
         System.out.println("\nCreated Bed Record:");
         System.out.println(bed);
@@ -449,11 +554,17 @@ public class Main {
         System.out.print("Enter Referred By (Doctor Name): ");
         String referredBy = s.nextLine();
 
+    try{
+
         PatientReferral referral = new PatientReferral(patientId1, PatientName, referralDepartment, referralReason, referralDate, referredBy);
 
-        System.out.println("\nPatient Referral Information:");
         System.out.println(referral);
 
+    } catch(InvalidReferralException e){
+        System.out.println("Error: " + e.getMessage());
+    }
+
+    
 
 
         //EMERGENCY
