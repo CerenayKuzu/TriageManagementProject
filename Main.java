@@ -255,9 +255,11 @@ public class Main {
         System.out.println("Room Number: " + triageRoom.getRoomNumber()); //display room number
         System.out.println("Room Type: " + triageRoom.getRoomType()); //display room type
 
+        
+
         if (triageRoom.getCurrentPatient() != null) { // If there is a current patient
-            Patient patient = triageRoom.getCurrentPatient();
-            System.out.println("Current Patient: " + patient.getName() + " " + patient.getSurname() + " (ID: " + patient.getId() + ")");
+            Patient currentPatient = triageRoom.getCurrentPatient();
+            System.out.println("Current Patient: " + currentPatient.getName() + " " + currentPatient.getSurname() + " (ID: " + currentPatient.getId() + ")");
         } else {
             // Indicate that there is no patient in the room
             System.out.println("No current patient in the room.");
@@ -492,7 +494,7 @@ public class Main {
         System.out.print("Enter Visit Date (2024-11-08): ");
         String visitDate = s.nextLine();
 
-        PatientVisit visit = new PatientVisit(patientId2, visitorName, visitDate);
+        PatientVisit visit = new PatientVisit(patientId2);
 
         System.out.println("\nPatient Visit Information:");
         System.out.println(visit);
