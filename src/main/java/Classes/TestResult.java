@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestResult {
-    private String testId;         
-    private int patientId;          
-    private Date testDate;         
-    private String testName;        
-    private String testResult;      
-    private String remarks;       // Additional remarks or comments about the test 
+    private String testId;
+    private int patientId;
+    private Date testDate;
+    private String testName;
+    private String testResult;
+    private String remarks; // Additional remarks or comments about the test
     private List<String> supportingDocuments;
-    private List<String> comments;  
+    private List<String> comments;
+    private TestResultCategory category; // Test result category field
 
-    //Constructor
+    // Constructor
     public TestResult(String testId, int patientId, Date testDate, String testName, String testResult, String remarks) {
         this.testId = testId;
         this.patientId = patientId;
@@ -24,9 +25,10 @@ public class TestResult {
         this.remarks = remarks;
         this.supportingDocuments = new ArrayList<>();
         this.comments = new ArrayList<>();
+        this.category = evaluateTestCategory(testResult); // Set the category based on test result
     }
 
-    //get - set
+    // Getters and Setters
     public String getTestId() {
         return testId;
     }
@@ -65,6 +67,7 @@ public class TestResult {
 
     public void setTestResult(String testResult) {
         this.testResult = testResult;
+        this.category = evaluateTestCategory(testResult); // Update category based on result
     }
 
     public String getRemarks() {
@@ -108,7 +111,21 @@ public class TestResult {
         System.out.println("All comments cleared.");
     }
 
-    //to display the test result information in a readable format
+    // Evaluate and return the category based on test result
+    private TestResultCategory evaluateTestCategory(String result) {
+        if ("Normal".equalsIgnoreCase(result)) {
+            return TestResultCategory.NORMAL;
+        } else if ("Abnormal".equalsIgnoreCase(result)) {
+            return TestResultCategory.ABNORMAL;
+        } else if ("Critical".equalsIgnoreCase(result)) {
+            return TestResultCategory.CRITICAL;
+        } else {
+            // Default category if no match found
+            return TestResultCategory.NORMAL;
+        }
+    }
+
+    // Display the test result information in a readable format
     @Override
     public String toString() {
         return "TestResult{" +
@@ -120,6 +137,7 @@ public class TestResult {
                 ", Remarks='" + remarks + '\'' +
                 ", Supporting Documents=" + supportingDocuments +
                 ", Comments=" + comments +
+                ", Category=" + category.getDetails() + // Display category details
                 '}';
     }
 }

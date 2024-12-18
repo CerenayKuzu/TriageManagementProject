@@ -12,6 +12,7 @@ public class Patient implements IMedicalHistory {
     private String allergies;
     private String medications;
 
+    private PatientStatus status;  // Enum ekleniyor
 
     private static int patientCount = 0;
 
@@ -23,11 +24,12 @@ public class Patient implements IMedicalHistory {
         this.surgeries = "None";
         this.allergies = "None";
         this.medications = "None";
+        this.status = PatientStatus.STABLE;  // Varsayılan durum
         patientCount++;
     }
 
-    //Constructor
-    public Patient(int id, String name, String surname, String previousIllnesses, String surgeries, String allergies, String medications) {
+    // Constructor with full details
+    public Patient(int id, String name, String surname, String previousIllnesses, String surgeries, String allergies, String medications, PatientStatus status) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -35,6 +37,7 @@ public class Patient implements IMedicalHistory {
         this.surgeries = surgeries;
         this.allergies = allergies;
         this.medications = medications;
+        this.status = status;  // Patient status is set
         patientCount++;
     }
 
@@ -42,7 +45,7 @@ public class Patient implements IMedicalHistory {
         System.out.println("Patient class loaded. Ready to manage patients.");
     }
 
-    //get-set
+    // Getter and Setter methods
 
     public int getId() {
         return id;
@@ -52,7 +55,7 @@ public class Patient implements IMedicalHistory {
         this.id = id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -60,11 +63,11 @@ public class Patient implements IMedicalHistory {
         this.name = name;
     }
 
-    public String getSurname(){
+    public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname){
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 
@@ -72,6 +75,17 @@ public class Patient implements IMedicalHistory {
         return patientCount;
     }
 
+    // Enum Getter and Setter for PatientStatus
+    public PatientStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PatientStatus status) {
+        this.status = status;
+        this.status.performAction();  // Status değiştiğinde ilgili aksiyon çağrılır
+    }
+
+    // Medical History methods from IMedicalHistory
     @Override
     public String getPatientId() {
         return String.valueOf(this.id);
@@ -135,6 +149,7 @@ public class Patient implements IMedicalHistory {
                "', surgeries='" + surgeries + 
                "', allergies='" + allergies + 
                "', medications='" + medications + 
-               "'}";
+               "', status=" + status + 
+               '}';
     }
 }

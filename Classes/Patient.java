@@ -2,18 +2,21 @@ package Classes;
 
 import Interfaces.IMedicalHistory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 public class Patient implements IMedicalHistory {
     private int id;
     private String name;
     private String surname;
-
     private String previousIllnesses;
     private String surgeries;
     private String allergies;
     private String medications;
 
-
     private static int patientCount = 0;
+    private static List<Patient> patientList = new ArrayList<>(); 
 
     public Patient(int id, String name, String surname) {
         this.id = id;
@@ -24,9 +27,9 @@ public class Patient implements IMedicalHistory {
         this.allergies = "None";
         this.medications = "None";
         patientCount++;
+        patientList.add(this); 
     }
 
-    //Constructor
     public Patient(int id, String name, String surname, String previousIllnesses, String surgeries, String allergies, String medications) {
         this.id = id;
         this.name = name;
@@ -36,14 +39,14 @@ public class Patient implements IMedicalHistory {
         this.allergies = allergies;
         this.medications = medications;
         patientCount++;
+        patientList.add(this); 
     }
 
     static {
         System.out.println("Patient class loaded. Ready to manage patients.");
     }
 
-    //get-set
-
+    
     public int getId() {
         return id;
     }
@@ -137,4 +140,38 @@ public class Patient implements IMedicalHistory {
                "', medications='" + medications + 
                "'}";
     }
+
+
+
+
+    public static void printAllPatients() {
+        System.out.println("Printing all patients:");
+        patientList.forEach(patient -> System.out.println(patient));
+    }
+
+
+    public static void findPatientByName(String name) {
+        System.out.println("Searching for patient with name: " + name);
+        patientList.stream()
+                   .filter(patient -> patient.getName().equalsIgnoreCase(name))
+                   .forEach(patient -> System.out.println("Found: " + patient));
+    }
+
+
+    public static void updateLastNamesToUppercase() {
+        patientList.forEach(patient -> patient.setSurname(patient.getSurname().toUpperCase()));
+    }
+
+
+    public static void sortPatientsById() {
+        patientList.stream()
+                   .sorted((p1, p2) -> Integer.compare(p1.getId(), p2.getId()))
+                   .forEach(patient -> System.out.println(patient));
+    }
+
+
+    public static void performActionOnAllPatients(Consumer<Patient> action) {
+        patientList.forEach(action);
+    }
+
 }

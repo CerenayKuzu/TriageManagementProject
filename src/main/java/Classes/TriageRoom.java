@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TriageRoom {
+@SuppressWarnings("hiding")
+public class TriageRoom<Patient> {
     private int roomNumber;
     private String roomType;
     private List<Patient> patients;
