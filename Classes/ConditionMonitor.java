@@ -1,16 +1,16 @@
 package Classes;
 
-public class ConditionMonitor {
+public class ConditionMonitor extends Thread {
     private String patientName;
-    private String conditionNotes; // Notes related to the patient's condition
+    private String conditionNotes;
 
-    //Constructor
+    // Constructor
     public ConditionMonitor(String patientName) {
         this.patientName = patientName;
-        this.conditionNotes = ""; // Initialize the condition notes as empty
+        this.conditionNotes = "";
     }
 
-    //get - set
+    // Getters and setters
     public String getPatientName() {
         return patientName;
     }
@@ -27,28 +27,52 @@ public class ConditionMonitor {
         this.conditionNotes = conditionNotes;
     }
 
-    //add a new note to the condition notes
     public void addConditionNote(String note) {
-         // If conditionNotes is empty, just set the note
         if (this.conditionNotes.isEmpty()) {
             this.conditionNotes = note;
         } else {
-         // If there are existing notes, append the new note with a newline
             this.conditionNotes += "\n" + note;
         }
     }
 
-    // update the patient's condition 
     public void updateCondition(String newCondition) {
         this.conditionNotes = newCondition;
     }
 
-    //return a readable format of the ConditionMonitor object
+    @Override
+    public void run() {
+        System.out.println("Updating condition for patient: " + patientName);
+        try {
+            Thread.sleep(2000); 
+            this.conditionNotes += "\nCondition updated at: " + System.currentTimeMillis();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public String toString() {
         return "ConditionMonitor{" +
                 "patientName='" + patientName + '\'' +
                 ", conditionNotes='" + conditionNotes + '\'' +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        ConditionMonitor monitor = new ConditionMonitor("John Doe");
+
+        monitor.addConditionNote("Patient is stable.");
+
+        monitor.start();
+
+        monitor.addConditionNote("Monitoring ongoing...");
+
+        try {
+            monitor.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(monitor.toString());
     }
 }

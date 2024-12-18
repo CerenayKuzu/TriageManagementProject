@@ -6,7 +6,7 @@ public class Medication {
     private String name;
     private String dosage;
     private String usageInstructions;
-    private MedicationType type;  // Değişiklik: type artık MedicationType enum'ı olacak
+    private MedicationType type; 
 
     // Constructor
     public Medication(String name, String dosage, String usageInstructions, MedicationType type) {
@@ -49,19 +49,16 @@ public class Medication {
         this.type = type;
     }
 
-    // Static method to find a medication (this example uses a fixed medication, but this could be extended)
     public static Medication findMedication(String name) throws MedicationNotFoundException {
         if (!"Paracetamol".equalsIgnoreCase(name)) {
             throw new MedicationNotFoundException("Medication '" + name + "' not found in the system.");
         }
 
-        // Default medication return (using MedicationType enum)
         return new Medication("Paracetamol", "500mg", "Twice a day after meals", MedicationType.TABLET);
     }
 
-    // Method to check if the medication is still valid based on shelf life
     public boolean isValid(int daysPassed) {
-        return type.isValid(daysPassed);  // Uses the isValid method from the MedicationType enum
+        return type.isValid(daysPassed); 
     }
 
     // To display the medication information
@@ -71,7 +68,7 @@ public class Medication {
                 "Name='" + name + '\'' +
                 ", Dosage='" + dosage + '\'' +
                 ", Usage Instructions='" + usageInstructions + '\'' +
-                ", Type=" + type + // Displays MedicationType enum information
+                ", Type=" + type + 
                 '}';
     }
 }

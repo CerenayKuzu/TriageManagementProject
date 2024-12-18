@@ -95,7 +95,6 @@ public class TestResult {
         }
     }
 
-    // Filter TestResults based on a predicate (e.g., filter by test result)
     public static void filterTestResults(List<TestResult> testResults, Predicate<TestResult> predicate) {
         for (TestResult testResult : testResults) {
             if (predicate.test(testResult)) {
@@ -104,7 +103,6 @@ public class TestResult {
         }
     }
 
-    // Print the details of each TestResult using a consumer
     public static void printTestResultDetails(List<TestResult> testResults, Consumer<TestResult> consumer) {
         for (TestResult testResult : testResults) {
             consumer.accept(testResult);
@@ -133,13 +131,13 @@ public class TestResult {
                 new TestResult("T125", 3, new Date(), "ECG", "Normal", "Heart rate is normal")
         );
 
-        // Apply lambda function to extract test result
+
         applyToTestResult(testResults, testResult -> "Test " + testResult.getTestName() + " resulted in: " + testResult.getTestResult());
 
-        // Filter TestResults with a specific test result (e.g., 'Positive')
+
         filterTestResults(testResults, testResult -> "Positive".equals(testResult.getTestResult()));
 
-        // Print all TestResult details
+
         printTestResultDetails(testResults, testResult -> System.out.println(testResult.toString()));
     }
 }

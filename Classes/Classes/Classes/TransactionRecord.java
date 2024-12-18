@@ -12,7 +12,7 @@ public class TransactionRecord {
     private double amount;
     private String date;
     private String description;
-    private TransactionStatus status;  // Transaction status'ı ekledik
+    private TransactionStatus status;
 
     // Constructor
     public TransactionRecord(String transactionId, int patientId, String transactionType, double amount, String date, String description) throws TransactionFailedException {
@@ -22,10 +22,9 @@ public class TransactionRecord {
         this.amount = amount;
         this.date = date;
         this.description = description;
-        this.status = TransactionStatus.PENDING;  // Başlangıç durumu PENDING olarak ayarlandı
+        this.status = TransactionStatus.PENDING; 
     }
 
-    // Getters and Setters
     public String getTransactionId() {
         return transactionId;
     }
@@ -85,37 +84,35 @@ public class TransactionRecord {
     // Process the transaction and update the status
     public void processTransaction() throws TransactionFailedException {
         if (amount <= 0) {
-            status = TransactionStatus.FAILED; // Eğer işlem tutarı sıfır ya da negatifse işlem başarısız olarak işaretlenir
+            status = TransactionStatus.FAILED; 
             throw new TransactionFailedException("Transaction amount must be greater than zero. Transaction ID: " + transactionId);
         }
 
-        status = TransactionStatus.COMPLETED;  // İşlem başarılıysa durumu COMPLETED olarak ayarlarız
+        status = TransactionStatus.COMPLETED; 
         System.out.println("Transaction processed successfully: " + this);
     }
 
-    // Lambda-based methods
+
     public static List<TransactionRecord> filterTransactionsByType(List<TransactionRecord> transactions, String type) {
-        // Filter transactions by type using a lambda
+
         return transactions.stream()
                 .filter(transaction -> transaction.getTransactionType().equalsIgnoreCase(type) && transaction.getStatus().isSuccessful())
                 .collect(Collectors.toList());
     }
 
     public static List<TransactionRecord> updateDescriptions(List<TransactionRecord> transactions, String newDescription) {
-        // Update descriptions for all transactions using a lambda
         transactions.forEach(transaction -> transaction.setDescription(newDescription));
         return transactions;
     }
 
     public static double calculateTotalAmount(List<TransactionRecord> transactions) {
-        // Calculate the total amount using a lambda (only successful transactions)
         return transactions.stream()
-                .filter(transaction -> transaction.getStatus().isSuccessful())  // Only successful transactions
+                .filter(transaction -> transaction.getStatus().isSuccessful())
                 .mapToDouble(TransactionRecord::getAmount)
                 .sum();
     }
 
-    // Represent the TransactionRecord object as a string
+
     @Override
     public String toString() {
         return "TransactionRecord{" +
@@ -125,7 +122,7 @@ public class TransactionRecord {
                 ", Amount=" + amount +
                 ", Date='" + date + '\'' +
                 ", Description='" + description + '\'' +
-                ", Status=" + status +  // Durumu da string olarak ekledik
+                ", Status=" + status +
                 '}';
     }
 }

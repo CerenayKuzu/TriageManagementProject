@@ -123,31 +123,26 @@ public class EmergencyIntervention {
 
     // Collection Streaming Methods
 
-    // Filter tools that contain the word "surgical" (example non-terminal operation)
     public List<String> filterToolsContaining(String keyword) {
         return toolUsed.stream()
                 .filter(tool -> tool.contains(keyword))
                 .collect(Collectors.toList());
     }
 
-    // Check if any tools were used (example terminal operation)
     public boolean hasUsedTools() {
         return toolUsed.stream().anyMatch(tool -> tool != null && !tool.isEmpty());
     }
 
-    // Get sorted list of notes (example non-terminal operation)
     public List<String> getSortedNotes() {
         return notes.stream()
                 .sorted()
                 .collect(Collectors.toList());
     }
 
-    // Get the number of tools used (example terminal operation)
     public long countToolsUsed() {
         return toolUsed.stream().count();
     }
 
-    // Get the first note that contains a specific word (example non-terminal operation)
     public String getNoteContaining(String keyword) {
         return notes.stream()
                 .filter(note -> note.contains(keyword))
@@ -155,7 +150,7 @@ public class EmergencyIntervention {
                 .orElse("No matching note found.");
     }
 
-    // Get details as a string
+
     @Override
     public String toString() {
         return "EmergencyIntervention{" +

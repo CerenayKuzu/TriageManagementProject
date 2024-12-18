@@ -1,12 +1,12 @@
 package Classes;
 
-//medicalDoctor class extends MedicalProfessional class inheriting the common attributes of a medical professional
+
 public class MedicalDoctor extends MedicalProfessional{
     private String speciality;
 
     //Constructor
     public MedicalDoctor(String name, int id, String speciality) {
-        super(name, id); //calling the constructor of the superclass (MedicalProfessional)
+        super(name, id); 
         this.speciality = speciality;
     }
 

@@ -12,7 +12,7 @@ public class Patient implements IMedicalHistory {
     private String allergies;
     private String medications;
 
-    private PatientStatus status;  // Enum ekleniyor
+    private PatientStatus status; 
 
     private static int patientCount = 0;
 
@@ -24,7 +24,7 @@ public class Patient implements IMedicalHistory {
         this.surgeries = "None";
         this.allergies = "None";
         this.medications = "None";
-        this.status = PatientStatus.STABLE;  // Varsayılan durum
+        this.status = PatientStatus.STABLE; 
         patientCount++;
     }
 
@@ -82,7 +82,7 @@ public class Patient implements IMedicalHistory {
 
     public void setStatus(PatientStatus status) {
         this.status = status;
-        this.status.performAction();  // Status değiştiğinde ilgili aksiyon çağrılır
+        this.status.performAction();
     }
 
     // Medical History methods from IMedicalHistory

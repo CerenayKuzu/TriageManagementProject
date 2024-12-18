@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
+@SuppressWarnings("unused")
 public class TriageRoom {
     private List<String> patients = Arrays.asList("John", "Jane", "Paul");
 

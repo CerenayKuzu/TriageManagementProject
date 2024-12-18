@@ -1,13 +1,13 @@
-package Classes;
+import java.util.concurrent.TimeUnit;
 
-import Interfaces.IPatientRecord;
-
-public class PatientRecord implements IPatientRecord{
+public class PatientRecord {
     private String patient;
     private String date;
     private String details;
-    
-    //Constructor
+
+    private static ConnectionPool connectionPool = new ConnectionPool();
+
+    // Constructor
     public PatientRecord(String patient, String date, String details) {
         this.patient = patient;
         this.date = date;
@@ -37,11 +37,27 @@ public class PatientRecord implements IPatientRecord{
     public void setDetails(String details) {
         this.details = details;
     }
-    
-    //easier to display the record's information
+
+    public void saveToDatabase() {
+        try {
+            Connection connection = connectionPool.getConnection();
+            connection.connect(); 
+
+
+            System.out.println("Patient record is added to the database: " + this.toString());
+
+
+            TimeUnit.SECONDS.sleep(2); 
+
+            connection.disconnect(); 
+            connectionPool.releaseConnection(connection);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public String toString() {
-        return details;
+        return "Patient: " + patient + ", Date: " + date + ", Details: " + details;
     }
-    
 }

@@ -106,29 +106,26 @@ public class PatientReferral {
 
     // Collection Streaming Methods
 
-    // Filter referrals based on the referral department (example non-terminal operation)
     public static List<PatientReferral> filterReferralsByDepartment(List<PatientReferral> referrals, String department) {
         return referrals.stream()
                 .filter(referral -> referral.getReferralDepartment().equalsIgnoreCase(department))
                 .collect(Collectors.toList());
     }
 
-    // Get sorted list of referral reasons (example non-terminal operation)
+
     public List<String> getSortedReferralReasons(List<PatientReferral> referrals) {
         return referrals.stream()
-                .map(PatientReferral::getReferralReason)  // Map to referral reasons
-                .sorted() // Sort the reasons alphabetically
+                .map(PatientReferral::getReferralReason)  
+                .sorted() 
                 .collect(Collectors.toList());
     }
 
-    // Count the number of referrals for a particular department (example terminal operation)
     public static long countReferralsByDepartment(List<PatientReferral> referrals, String department) {
         return referrals.stream()
                 .filter(referral -> referral.getReferralDepartment().equalsIgnoreCase(department))
                 .count();
     }
 
-    // Get the first referral that was made by a particular medical professional (example non-terminal operation)
     public static PatientReferral getReferralByReferredBy(List<PatientReferral> referrals, String referredBy) {
         return referrals.stream()
                 .filter(referral -> referral.getReferredBy().equalsIgnoreCase(referredBy))
@@ -136,12 +133,11 @@ public class PatientReferral {
                 .orElse(null); // If no match, return null
     }
 
-    // Get the number of notes attached to a referral (example terminal operation)
+
     public long countNotes() {
         return notes.stream().count();
     }
 
-    // Check if a referral has any notes (example terminal operation)
     public boolean hasNotes() {
         return notes.stream().anyMatch(note -> note != null && !note.isEmpty());
     }
