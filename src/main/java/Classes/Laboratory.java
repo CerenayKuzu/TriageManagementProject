@@ -1,5 +1,9 @@
 package Classes;
 
+import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Laboratory {
     private String name;
     private String location;
@@ -7,44 +11,58 @@ public class Laboratory {
     private String[] results;
     private int testCount;
 
-    //Constructor
+    // Connection Pool (5 connections)
+    private final BlockingQueue<Connection> connectionPool;
+    private final ExecutorService threadPool; // Thread pool with 7 threads
+
     public Laboratory(String name, String location, int maxTests) {
         this.name = name;
         this.location = location;
         this.testTypes = new String[maxTests];
         this.results = new String[maxTests];
-        this.testCount = 0;              
+        this.testCount = 0;
+
+        // Initialize connection pool with 5 available connections
+        this.connectionPool = new LinkedBlockingQueue<>(5);  // Max size of 5 connections
+        this.threadPool = Executors.newFixedThreadPool(7);  // 7 threads to simulate requests
+
+        // Initialize the pool with 5 connections
+        for (int i = 0; i < 5; i++) {
+            connectionPool.offer(new Connection(i + 1));  // Adding 5connections to the pool
+        }
     }
 
-    //get - set
-    public String getName() {
-        return name;
+    public CompletableFuture<Void> addTestAsync(int threadId, String testType, String result) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Connection connection = connectionPool.take();  // Block if the pool is empty
+                System.out.println("Thread " + threadId + " acquired connection: " + connection.getId());
+
+                addTest(testType, result);
+                Thread.sleep(2000);
+                connectionPool.offer(connection);  // Put the connection back to the pool
+
+                System.out.println("Thread " + threadId + " released connection: " + connection.getId());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Thread " + threadId + " was interrupted.");
+            }
+            return null;
+        }, threadPool);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    // add a test and its result to the laboratory
+    // Simulate adding test details
     public void addTest(String testType, String result) {
         if (testCount < testTypes.length) {
-            testTypes[testCount] = testType; 
-            results[testCount] = result; 
-            testCount++;      
+            testTypes[testCount] = testType;
+            results[testCount] = result;
+            testCount++;
         } else {
             System.out.println("No more tests can be added.");
         }
     }
 
-    //to return a detailed string representation of the laboratory
+    // Return a string representation of the laboratory details
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -56,5 +74,52 @@ public class Laboratory {
               .append(" - Result: ").append(results[i]).append("\n");
         }
         return sb.toString();
+    }
+
+    // Shutdown the thread pool
+    public void shutdown() {
+        try {
+            threadPool.shutdown();
+            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                threadPool.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            threadPool.shutdownNow();
+        }
+    }
+
+    public static void main(String[] args) {
+        Laboratory lab = new Laboratory("Central Lab", "New York", 10);
+
+        // Start 7 threads to simulate test requests
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        for (int i = 1; i <= 7; i++) {
+            final int threadId = i;
+            futures.add(lab.addTestAsync(threadId, "Test-" + threadId, "Result-" + threadId));
+        }
+
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+        allOf.join();
+
+        lab.shutdown();
+        System.out.println("All threads have finished processing.");
+    }
+}
+
+// Connection class to simulate a connection
+class Connection {
+    private final int id;
+
+    public Connection(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Connection-" + id;
     }
 }
