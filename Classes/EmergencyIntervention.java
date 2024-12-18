@@ -2,6 +2,7 @@ package Classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmergencyIntervention {
     private int interventionId;
@@ -14,7 +15,7 @@ public class EmergencyIntervention {
     private List<String> toolUsed;
     private List<String> notes;
 
-    //Constructor
+    // Constructor
     public EmergencyIntervention(int interventionId, int emergencyId, String interventionType, String interventionTime, String staffName, String interventionDetails){
         this.interventionId = interventionId;
         this.emergencyId = emergencyId;
@@ -27,7 +28,7 @@ public class EmergencyIntervention {
         this.notes = new ArrayList<>();
     }
 
-    //get - set
+    // Getters and Setters
     public int getInterventionId() {
         return interventionId;
     }
@@ -76,7 +77,6 @@ public class EmergencyIntervention {
         this.interventionDetails = interventionDetails;
     }
 
-    //checks if the intervention was successful
     public boolean isSuccessful() {
         return isSuccessful;
     }
@@ -86,7 +86,7 @@ public class EmergencyIntervention {
     }
 
     public void markAsSuccessful() {
-        this.isSuccessful = true; //set isSuccessful to true when the intervention is successful
+        this.isSuccessful = true; // set isSuccessful to true when the intervention is successful
     }
 
     public List<String> getToolUsed(){
@@ -121,7 +121,41 @@ public class EmergencyIntervention {
         System.out.println("All notes cleared.");
     }
 
-    //representation of the emergency intervention
+    // Collection Streaming Methods
+
+    // Filter tools that contain the word "surgical" (example non-terminal operation)
+    public List<String> filterToolsContaining(String keyword) {
+        return toolUsed.stream()
+                .filter(tool -> tool.contains(keyword))
+                .collect(Collectors.toList());
+    }
+
+    // Check if any tools were used (example terminal operation)
+    public boolean hasUsedTools() {
+        return toolUsed.stream().anyMatch(tool -> tool != null && !tool.isEmpty());
+    }
+
+    // Get sorted list of notes (example non-terminal operation)
+    public List<String> getSortedNotes() {
+        return notes.stream()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    // Get the number of tools used (example terminal operation)
+    public long countToolsUsed() {
+        return toolUsed.stream().count();
+    }
+
+    // Get the first note that contains a specific word (example non-terminal operation)
+    public String getNoteContaining(String keyword) {
+        return notes.stream()
+                .filter(note -> note.contains(keyword))
+                .findFirst()
+                .orElse("No matching note found.");
+    }
+
+    // Get details as a string
     @Override
     public String toString() {
         return "EmergencyIntervention{" +
@@ -136,6 +170,4 @@ public class EmergencyIntervention {
                 ", notes=" + notes +
                 '}';
     }
-
-
 }
